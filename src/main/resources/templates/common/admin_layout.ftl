@@ -66,7 +66,7 @@
                 <li>
                     <a href="./charts.html">
                         <i class="glyphicon glyphicon-calendar"></i>
-                        图表统计
+                        统计
                     </a>
                 </li>
                 <li>
@@ -86,8 +86,6 @@
 </div>
 <#include "./static_js.ftl">
 <script>
-    //JavaScript代码区域
-    // debugger;
     var currentMenu = '${currentMenu!}';
     if (currentMenu && ''!=currentMenu) {
         $("li.active").removeClass("active");
@@ -95,7 +93,6 @@
         var $currentMenu = $("#"+currentMenu);
         $($currentMenu).addClass("active");
         var $parent = $($currentMenu).parents("ul.collapse");
-        console.log($parent);
         if ($($parent).length>0) {
             $($parent).collapse('show')
             // $($parent).addClass("in");
