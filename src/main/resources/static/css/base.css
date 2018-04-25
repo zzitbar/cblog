@@ -1,0 +1,92 @@
+html, body {
+    font-family: "微软雅黑 Light", Consolas, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #f8f8f8;
+}
+.article-title{
+    font-size: 2.2rem;
+}
+.article-title a {
+    color: #000000;
+}
+.article-title a:hover{
+    /*text-decoration: none;*/
+    color: #1f2485;
+}
+.article-tag {
+    color: #999999;
+}
+.article-tag a {
+    /*text-decoration: none;*/
+    color: #999999;
+}
+.article-abstract {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #E3E3E3;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #E3E3E3;
+    /*background: #e3e3e3;*/
+}
+
+.panel-footer-white {
+    background: #ffffff!important;
+}
+
+/*定义二级菜单样式*/
+.secondmenu a {
+    font-size: 13px;
+    color: #4A515B;
+    padding-left: 2rem !important;
+    /*text-align: center;*/
+}
+
+.navbar-extend {
+    background-color: #4eb36d;
+    margin-bottom: 15px;
+}
+.navbar-extend a{
+    color: #fff!important;
+    font-weight: 600;
+    font-size: 16px;
+}
+.navbar-extend li
+.navbar-extend a:hover {
+    color: #555555!important;
+}
+.navbar-extend > a{
+    color: #fff;
+}
+.navbar-extend > .active > a{
+
+}
+
+.navbar-brand {
+    background: url('') no-repeat 10px 8px;
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 50px;
+    color: #fff;
+}
+
+#doc-content {
+    background: inherit!important;
+    font-family: inherit!important;
+    padding: 15px 0px !important;
+}
+
+.-mob-share-open {
+    font-size: 14px;
+}
+.btn-tag-top {
+    margin: 2px 3px!important;
+}
+
+.main-sidebar {
+    min-height: 100%;
+    background-color: #222d32;
+    position: absolute;
+    width: 230px;
+}
+.content-wrapper{
+    margin-left: 230px;
+}
