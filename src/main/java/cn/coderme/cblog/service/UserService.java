@@ -21,4 +21,8 @@ public class UserService {
     public List<User> findAll() {
         return userDAO.findAll();
     }
+
+    public User findByUsername(String username){
+        return userDAO.findByUsername(username);
+    }
 }

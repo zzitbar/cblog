@@ -20,6 +20,9 @@ public class QiniuKey {
     @Value("${qiniu.url}")
     private String qiniuUrl;
 
+    @Value("${qiniu.zone}")
+    private String zone;
+
     public String getAccessKey() {
         return accessKey;
     }
@@ -50,5 +53,13 @@ public class QiniuKey {
 
     public void setQiniuUrl(String qiniuUrl) {
         this.qiniuUrl = qiniuUrl;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
     }
 }

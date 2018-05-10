@@ -10,7 +10,7 @@ public class HelloWorldController {
 
     @RequestMapping("/hello")
     public String index() {
-        return "Hello World 333, ";
+        return "Hello World !";
     }
 
     @RequestMapping("/hello2")

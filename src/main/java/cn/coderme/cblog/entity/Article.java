@@ -18,6 +18,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "article")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 public class Article implements Serializable {
 
     @Id
@@ -41,6 +42,7 @@ public class Article implements Serializable {
     private Integer enabled = 1;// 是否可见
 
     private Integer hot = 0;//热度
+    private String author;//作者
 
     @Transient
     private String articleCategoryName;
@@ -238,6 +240,14 @@ public class Article implements Serializable {
      */
     public void calculateHot() {
         this.setHot(this.getArticleCommentCount()*2 + this.getArticleViewCount());
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
 

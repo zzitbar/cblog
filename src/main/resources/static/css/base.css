@@ -90,3 +90,75 @@ html, body {
 .content-wrapper{
     margin-left: 230px;
 }
+a:hover{
+    color: #FFF;
+    background: #CC5E33;
+    text-decoration: none;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.col-no-padding{
+    padding: 0!important;
+}
+.bing-picture-bg{
+    height: 300px;
+}
+.bing-description{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    padding: 0.5rem;
+    display: block;
+    color: #fff;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+.bing-description h3 {
+    font-size: 1rem;
+    letter-spacing: 1rem;
+    font-weight: 400;
+    color: #fff;
+    padding: 0.2rem;
+}
+.bing-description p {
+    font-size: 1.2rem;
+}
+.bing-options {
+    font-size: 1.2rem;
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    padding: 0.5rem;
+    display: block;
+    text-align: right;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    opacity: 1;
+    z-index: 3;
+}
+.bing-options .ctrl {
+    display: inline-block;
+    height: 3.2rem;
+    line-height: 3.1rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid transparent;
+    cursor: pointer;
+    -webkit-border-radius: 0.6rem;
+    border-radius: 0.6rem;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    padding: 0 1rem;
+    margin-left: 0.5rem;
+}
+.image-title {
+    font-size: 1.4rem;
+}
+.image-info {
+    font-size: 12px;
+}

@@ -31,6 +31,6 @@ public class SampleControllerTest {
     public void testHome() throws Exception {
         mock.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().string("Hello World!"));
+            .andExpect(content().string("Hello World !"));
     }
 }

@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-md-2">
             <ul id="main-nav" class="nav nav-tabs nav-stacked" style="">
-                <li class="active">
+                <li class="active" id="dashboard">
                     <a href="#">
                         <i class="glyphicon glyphicon-th-large"></i>
                         首页
