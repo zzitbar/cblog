@@ -118,5 +118,16 @@ public class QiniuUtils {
         return zone;
     }
 
+    public static void main(String[] args) {
+        QiniuUtils qiniuUtils = new QiniuUtils();
+        qiniuUtils.qiniuKey = new QiniuKey();
+        qiniuUtils.qiniuKey.setAccessKey("xByVEgFGjb38VWuRCQV2yIt2CMqXC-SNPXoRa0oL");
+        qiniuUtils.qiniuKey.setSecretKey("2jN76ED2kpo2XPSkO9RY8HtlkPdce4gCUGYWn33H");
+        qiniuUtils.qiniuKey.setBucket("cblog");
+        qiniuUtils.qiniuKey.setQiniuUrl("http://p7mkg1wor.bkt.clouddn.com");
+        qiniuUtils.qiniuKey.setZone("zone0");
+        FetchRetDto file = qiniuUtils.fetctToUpload("https://www.bing.com/az/hprichbg/rb/ClaretCup_ZH-CN12198280078_1920x1080.jpg", "ClaretCup_ZH-CN12198280078_1920x1080.jpg");
+        System.out.println(file);
+    }
 
 }

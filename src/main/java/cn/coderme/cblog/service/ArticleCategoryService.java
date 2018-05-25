@@ -32,7 +32,7 @@ public class ArticleCategoryService {
     }
 
     public ArticleCategory getById(Long id) {
-        return articleCategoryDAO.getOne(id);
+        return articleCategoryDAO.findOne(id);
     }
 
     public List<ArticleCategory> findAll(){
@@ -46,7 +46,7 @@ public class ArticleCategoryService {
             category.setUpdateTime(new Date());
             articleCategoryDAO.save(category);
         } else {
-            ArticleCategory ex = articleCategoryDAO.getOne(category.getId());
+            ArticleCategory ex = articleCategoryDAO.findOne(category.getId());
             ex.setCategoryName(category.getCategoryName());
             ex.setUpdateTime(new Date());
             articleCategoryDAO.save(ex);

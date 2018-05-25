@@ -9,17 +9,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created By zhangtengfei
  * Date:2018/4/24
  * Time:16:25
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/admin/category")
 public class ArticleCategoryController {
@@ -79,5 +82,11 @@ public class ArticleCategoryController {
             result.setErrorMsg(e.getMessage());
         }
         return result;
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ArticleCategory> list() {
+        return articleCategoryService.findAll();
     }
 }

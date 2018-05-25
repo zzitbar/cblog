@@ -14,12 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -27,6 +25,8 @@ import java.util.List;
  * Date:2018/4/19
  * Time:16:06
  */
+// 允许跨域
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("")
 public class ArticleController {
@@ -73,7 +73,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "/admin/article/page", method = RequestMethod.POST)
     @ResponseBody
-    public PageBean<Article> page(PageDto dto) {
+    public PageBean<Article> page(PageDto dto, HttpServletResponse response) {
         dto.getOrderByMap().put("id", PageDto.DESC);
         dto.getOrderByMap().put("articleUpdateDate", PageDto.DESC);
         PageBean<Article> pageBean = articleService.page(dto);
@@ -110,6 +110,13 @@ public class ArticleController {
         return result;
     }
 
+    @RequestMapping(value = "/admin/article/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Article get(@PathVariable Long id) {
+        Article article = articleService.getById(id);
+        return article;
+    }
+
     /**
      * 获取最热文章、最新文章、含文章最多标签
      *
@@ -127,6 +134,25 @@ public class ArticleController {
             result.getData().setTags(articleTagsService.findRefOrder());
         } catch (Exception e) {
             logger.error("保存文章出错", e);
+            result.setStatus(ResultJson.FAILED);
+            result.setErrorMsg(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * 删除文章
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/admin/article/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultJson delete(Long id) {
+        ResultJson result = new ResultJson();
+        try {
+            articleService.delete(id);
+        } catch (Exception e) {
+            logger.error("删除文章出错", e);
             result.setStatus(ResultJson.FAILED);
             result.setErrorMsg(e.getMessage());
         }

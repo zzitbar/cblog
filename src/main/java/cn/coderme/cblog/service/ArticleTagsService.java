@@ -25,6 +25,10 @@ public class ArticleTagsService {
         return articleTagsDAO.findAll();
     }
 
+    public List<ArticleTags> findByTagTitleLike(String tagTitle) {
+        return articleTagsDAO.findByTagTitleLike(tagTitle);
+    }
+
     /**
      * 引用最多的前10标签
      * @return

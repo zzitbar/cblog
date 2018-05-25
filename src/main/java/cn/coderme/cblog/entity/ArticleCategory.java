@@ -1,6 +1,9 @@
 package cn.coderme.cblog.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,6 +32,7 @@ public class ArticleCategory implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "articleCategory")
     @Cascade(value={org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JsonIgnore
     private List<Article> articles;
 
     public Long getId() {
@@ -47,6 +51,8 @@ public class ArticleCategory implements Serializable {
         this.categoryName = categoryName;
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
     }

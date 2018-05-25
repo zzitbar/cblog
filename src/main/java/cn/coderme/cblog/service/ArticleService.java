@@ -1,5 +1,6 @@
 package cn.coderme.cblog.service;
 
+import cn.coderme.cblog.BusException;
 import cn.coderme.cblog.base.PageBean;
 import cn.coderme.cblog.dao.ArticleCategoryDAO;
 import cn.coderme.cblog.dao.ArticleDAO;
@@ -63,7 +64,7 @@ public class ArticleService {
     }
 
     public Article getById(Long id) {
-        return articleDAO.getOne(id);
+        return articleDAO.findOne(id);
     }
 
     /**
@@ -127,11 +128,11 @@ public class ArticleService {
                 articleCategory.setArticleCount(articleCategory.getArticleCount()-1);
                 articleCategoryDAO.save(articleCategory);
 
-                ArticleCategory category = articleCategoryDAO.getOne(article.getArticleCategoryId());
+                ArticleCategory category = articleCategoryDAO.findOne(article.getArticleCategoryId());
                 category.setArticleCount(category.getArticleCount()+1);
                 article.setArticleCategory(category);
             }
-        } else {
+        } else if (null != article.getArticleCategoryId()) {
             ArticleCategory category = articleCategoryDAO.getOne(article.getArticleCategoryId());
             category.setArticleCount(category.getArticleCount()+1);
             article.setArticleCategory(category);
@@ -191,5 +192,26 @@ public class ArticleService {
         dto.getOrderByMap().put("articleCreateDate", PageDto.DESC);
         Page<Article> articles = articleDAO.findAll(dto.getPageable());
         return articles.getContent();
+    }
+
+    @Caching(evict = {@CacheEvict(value="article",key="'lastest'"), @CacheEvict(value="article",key="'hotest'"),
+            @CacheEvict(value="articleTags",key="'refMax'")})
+    @Transactional
+    public void delete(Long id) {
+        Article article = articleDAO.getOne(id);
+        // 处理文章分类
+        ArticleCategory articleCategory = article.getArticleCategory();
+        articleCategory.setArticleCount(articleCategory.getArticleCount()-1);
+        articleCategoryDAO.save(articleCategory);
+        // 标签
+        List<ArticleTags> articleTags = article.getArticleTagsList();
+        if (null != articleTags) {
+            for (ArticleTags tag : articleTags) {
+                tag.setTagReferenceCount(tag.getTagReferenceCount()-1);
+                tag.setTagPublishedRefCount(tag.getTagPublishedRefCount()-1);
+                articleTagsDAO.save(tag);
+            }
+        }
+        articleDAO.delete(id);
     }
 }

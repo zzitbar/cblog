@@ -2,6 +2,7 @@ package cn.coderme.cblog.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 
@@ -47,13 +48,15 @@ public class Article implements Serializable {
     @Transient
     private String articleCategoryName;
 
-    @ManyToOne(cascade={CascadeType.ALL,CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(value={org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinColumn(name="articleCategoryId", referencedColumnName="id", insertable=false, updatable=false)
     @JsonIgnore
     private ArticleCategory articleCategory;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = ArticleTags.class, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade(value={org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinTable(name = "t_tag_article",
             joinColumns = {@JoinColumn(name = "article_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id", referencedColumnName = "id")})

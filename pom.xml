@@ -6,8 +6,8 @@
 	<groupId>cn.coderme</groupId>
 	<artifactId>cblog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<!-- <packaging>jar</packaging> -->
-	<packaging>war</packaging>
+	 <packaging>jar</packaging>
+	<!--<packaging>war</packaging>-->
 
 	<name>cblog</name>
 	<description>A blog based on Spring Boot</description>
@@ -38,12 +38,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<!-- 移除tomcat插件 -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
+			<!--<exclusions>-->
+				<!--<exclusion>-->
+					<!--<groupId>org.springframework.boot</groupId>-->
+					<!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+				<!--</exclusion>-->
+			<!--</exclusions>-->
 		</dependency>
 
 		<dependency>

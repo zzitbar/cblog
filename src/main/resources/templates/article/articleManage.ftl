@@ -18,7 +18,7 @@
 
 <@mainlayout pageTitle=pageTitle pageJavascript=pageJavascript pageBreadCrumbs=pageBreadCrumbs currentMenu="articleList">
 <table style="width:100%;" data-toggle="table" class="bootstrapTable"
-       data-content-type="application/x-www-form-urlencoded; charset=UTF-8"
+       <#--data-content-type="application/x-www-form-urlencoded; charset=UTF-8"-->
        data-url="${ctx}/admin/article/page" data-method="post"
        data-pagination="true" data-side-pagination="server">
     <thead>
