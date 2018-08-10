@@ -69,7 +69,7 @@ public class BingController {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
     public String test() {
-        bingImageJob.everyday();
+        bingImageJob.histroy(null);
         return "success";
     }
 }

@@ -1,15 +1,22 @@
 package cn.coderme.cblog.utils;
 
+import cn.coderme.cblog.Constants;
 import cn.coderme.cblog.base.QiniuKey;
+import cn.coderme.cblog.dto.bing.BingCnDto;
 import cn.coderme.cblog.dto.qiniu.FetchRetDto;
 import cn.coderme.cblog.entity.bing.BingImageArchive;
+import cn.coderme.cblog.service.bing.BingImageArchiveService;
+import com.google.gson.Gson;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -30,12 +37,16 @@ public class BingUtils {
     private static final String SITE_URL = "http://www.istartedsomething.com/bingimages/?";
     private static final String IMAGE_BASE_URL = "http://www.istartedsomething.com/bingimages/cache/";
 
-    private static final String BASE_DIR = "/bing-image";
+    private static final String BING_CN_URL = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
+
+    public static final String BASE_DIR = "/bing-image";
 
     @Autowired
     private QiniuKey qiniuKey;
     @Autowired
     private QiniuUtils qiniuUtils;
+    @Autowired
+    private BingImageArchiveService bingImageArchiveService;
 
     public void dealImage(BingImageArchive image) {
         if (!StringUtils.startsWithIgnoreCase(image.getImageUrl(), "http")) {
@@ -98,6 +109,38 @@ public class BingUtils {
         }
         return result;
     }
+
+    /**
+     * 从 bing API 获取每日图片
+     * https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1
+     */
+    public void downloadImage() {
+        RestTemplate restTemplate = new RestTemplate();
+        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+        ResponseEntity<String> response = restTemplate.getForEntity(BING_CN_URL, String.class);
+        if (response.getStatusCode().equals(HttpStatus.OK)) {
+            BingCnDto bingCnDto = new Gson().fromJson(response.getBody(), BingCnDto.class);
+            if (null != bingCnDto && null != bingCnDto.getImages() && bingCnDto.getImages().size()>0) {
+                bingCnDto.getImages().stream().forEach(x -> {
+                    LocalDate date = LocalDate.parse(x.getStartdate(), dtf);
+                    BingImageArchive imageArchive = new BingImageArchive();
+                    imageArchive.setImageTitle(x.getCopyright());
+                    imageArchive.setOriginUrl("http://s.cn.bing.net"+x.getUrl());
+                    imageArchive.setImageDate(x.getStartdate());
+                    imageArchive.setImageDateEnd(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    imageArchive.setImageAlt(x.getCopyright());
+                    imageArchive.setImageZone(Constants.IMAGE_ZONE.CN.getValue());
+
+                    imageArchive.setImageUrl(BingUtils.BASE_DIR+"/"+imageArchive.getImageZone()+"/"+imageArchive.getImageDate());
+                    FetchRetDto fetchRetDto = qiniuUtils.fetctToUpload(imageArchive.getOriginUrl(), imageArchive.getImageUrl());
+
+                    bingImageArchiveService.save(imageArchive);
+                });
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         BingUtils bingUtils = new BingUtils();
