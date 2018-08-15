@@ -1,11 +1,5 @@
-<#include "../common/admin_layout.ftl">
-<#assign pageTitle>
-    分类管理
-</#assign>
-<#assign pageBreadCrumbs>
-    分类管理
-</#assign>
-<#assign pageJavascript>
+<#assign ctx=request.contextPath>
+
 <script>
     $(function () {
         $("#categoryTable").bootstrapTable({pagination: false});
@@ -25,9 +19,7 @@
         BaseJs.openDialog("${request.contextPath}/admin/category/edit"+(id?"?id="+id:""), "修改分类", ["60%", "50%"])
     }
 </script>
-</#assign>
 
-<@mainlayout pageTitle=pageTitle pageJavascript=pageJavascript pageBreadCrumbs=pageBreadCrumbs currentMenu="category">
 <button type="button" class="btn btn-primary pull-right" onclick="edit()" style="margin-bottom: 10px;"><i class="fa fa-plus"></i> 新增</button>
 <table style="width:100%;" data-toggle="table" class="bootstrapTable" id="categoryTable"
        data-content-type="application/x-www-form-urlencoded; charset=UTF-8"
@@ -43,4 +35,3 @@
     </tr>
     </thead>
 </table>
-</@mainlayout>

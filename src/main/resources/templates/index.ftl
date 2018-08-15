@@ -50,6 +50,15 @@
             </div>
         </div>
         <a class="scroll-down fa fa-angle-double-down " href="#content"><span class="hidden">Scroll Down</span></a>
+        <span class="image-info fa-stack fa-lg ">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-info fa-stack-1x fa-inverse"></i>
+        </span>
+        <div class="bing-info" style="display: none">
+            <p class="text-white"><i class="glyphicon glyphicon-calendar"></i> 2018-05-08</p>
+            <p class="text-white"><i class="glyphicon glyphicon-map-marker"></i> 英格兰多塞特郡</p>
+            <p class="text-white"><i class="glyphicon glyphicon-copyright-mark"></i> (@ Brian Jannsen/Danita Delimont) © (Bing China)</p>
+        </div>
     </header>
 
     <main id="content" class="content" role="main">
@@ -91,5 +100,12 @@
 </div>
 <script src="${ctx}/static/js/jquery-2.2.3.min.js"></script>
 <script src="${request.contextPath}/static/js/front.js"></script>
+<script>
+    $(function () {
+        $(".image-info").on("hover", function (e) {
+            $("div.bing-info").show();
+        })
+    })
+</script>
 </body>
 </html>

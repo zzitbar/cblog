@@ -1,11 +1,5 @@
-<#include "../common/admin_layout.ftl">
-<#assign pageTitle>
-    编辑文章
-</#assign>
-<#assign pageBreadCrumbs>
-    编辑文章
-</#assign>
-<#assign pageJavascript>
+<#assign ctx=request.contextPath>
+
 <script>
     $(function () {
         laydate.render({
@@ -65,9 +59,7 @@
         })
     }
 </script>
-</#assign>
 
-<@mainlayout pageTitle=pageTitle pageJavascript=pageJavascript pageBreadCrumbs=pageBreadCrumbs currentMenu="articleEdit">
 <form id="articleEditForm">
     <input type="hidden" name="id" value="${article.id!}">
     <div class="form-group">
@@ -94,7 +86,7 @@
         <select name="articleCategoryId" id="articleCategoryId" class="form-control" value="${article.articleCategoryId!}" required>
                 <#if articleCategorys?? && articleCategorys?size gt 0>
                 <#list articleCategorys as category>
-                <option value="${category.id!}" <#if category.id==article.articleCategoryId>selected</#if>>${category.categoryName}</option>
+                <option value="${category.id!}" <#if article.articleCategoryId?? && category.id==article.articleCategoryId>selected</#if>>${category.categoryName}</option>
                 </#list>
                 </#if>
         </select>
@@ -111,5 +103,3 @@
     </div>
     <button type="button" class="btn btn-success" onclick="saveArticle()">保存</button>
 </form>
-
-</@mainlayout>

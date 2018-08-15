@@ -1,3 +1,5 @@
+<#assign ctx=request.contextPath>
+
 <script>
     function saveCategory() {
         BaseJs.submit("categoryEditForm", "${request.contextPath}/admin/category/edit", function (result) {

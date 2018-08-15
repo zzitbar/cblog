@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="/favicon.png" type="image/png"/>
     <link rel="canonical" href="http://zzitbar.com/"/>
     <meta name="referrer" content="no-referrer-when-downgrade"/>
-    <link rel="next" href="http://zzitbar.com/page/2/"/>
+    <#--<link rel="next" href="http://zzitbar.com/page/2/"/>-->
 </head>
 <body class="home-template nav-closed">
 <div class="site-wrapper">
@@ -54,7 +54,9 @@
 <script>
     function login() {
         $.post("${request.contextPath}/login", $("#loginForm").serialize(), function (result) {
+            console.log(result);
             if (result && result.status === "success") {
+                window.localStorage.setItem("token", 'Bearer '+result.data);
                 window.location.href = "${request.contextPath}/admin/index";
             } else {
                 alert(result.errorMsg);
