@@ -1,6 +1,10 @@
 <#assign ctx=request.contextPath>
 
 <script src="${ctx}/static/js/clipboardjs/clipboard.js"></script>
+<script src="${ctx}/static/js/highcharts/highcharts.js"></script>
+<script src="${ctx}/static/js/highcharts/no-data-to-display.js"></script>
+<script src="${ctx}/static/js/highcharts/sand-signika.js"></script>
+
 <script>
     $(function () {
         var clipboard = new ClipboardJS('#copyBtn');
@@ -13,6 +17,7 @@
         clipboard.on('error', function(e) {
             BaseJs.showError("复制失败，请使用 ctrl + c ")
         });
+        $(".btn-report:first-child").click();
     })
     function resetSecret() {
         BaseJs.confirm("重置后原 app secret 将失效，确定要重置吗？", function () {
@@ -25,6 +30,24 @@
                 }
             }, "json");
         })
+    }
+    function showChart(obj) {
+        var duration = $(obj).attr("data-duration");
+        $(obj).addClass("active");
+        $(obj).siblings().removeClass("active");
+        $.post("${ctx}/openapi/report", {duration:duration}, function (result) {
+//            BaseJs.endLoading(index);
+            var options = BaseJs.deepCloneObj(BaseJs.chartOptions);
+            options.chart.renderTo = "chart";
+            options.chart.type = result.type;
+            options.title.text = result.chartTitle;
+            options.yAxis.title.text = result.yTitle;
+            options.yAxis.plotBands = [];
+            options.xAxis.categories = result.xAxis;
+            options.series = result.chartDataDtos;
+            options.exporting.filename = result.chartTitle;
+            var chart = new Highcharts.Chart(options);
+        }, "json");
     }
 </script>
 <div class="panel panel-default">
@@ -68,5 +91,14 @@
         </h4>
     </div>
     <div class="panel-body">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default btn-report" onclick="showChart(this)" data-duration="1">今日</button>
+            <button type="button" class="btn btn-default btn-report" onclick="showChart(this)" data-duration="2">昨日</button>
+            <button type="button" class="btn btn-default btn-report" onclick="showChart(this)" data-duration="3">7天</button>
+            <button type="button" class="btn btn-default btn-report" onclick="showChart(this)" data-duration="4">30天</button>
+        </div>
+        <div id="chart">
+
+        </div>
     </div>
 </div>

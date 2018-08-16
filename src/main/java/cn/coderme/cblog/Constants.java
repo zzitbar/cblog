@@ -42,4 +42,59 @@ public class Constants {
             this.value = value;
         }
     }
+
+    public enum CHART_TYPE {
+        LINE("line"), SPLINE("spline"), COLUMN("column"), PIE("pie"), BAR("bar");
+        private String value;
+
+        CHART_TYPE(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
+
+    /**
+     * API 统计分类类型
+     * 1：今日
+     * 2：昨日
+     * 3：7天
+     * 4：30天
+     */
+    public enum API_REPORT_DURATION {
+        TODAY(1), YESTERDAY(2), SEVEN_DAYS(3), THIRTY_DAYS(4);
+        private Integer value;
+
+        API_REPORT_DURATION(Integer value) {
+            this.value = value;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+
+        public void setValue(Integer value) {
+            this.value = value;
+        }
+
+        public static String convert(Integer value) {
+            if (TODAY.getValue().equals(value)) {
+                return "今日";
+            } else if (YESTERDAY.getValue().equals(value)) {
+                return "昨日";
+            } else if (SEVEN_DAYS.getValue().equals(value)) {
+                return "7天";
+            } else if (THIRTY_DAYS.getValue().equals(value)) {
+                return "30天";
+            } else {
+                return "";
+            }
+        }
+    }
 }

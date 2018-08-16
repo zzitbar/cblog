@@ -35,6 +35,80 @@ $(".share-open").bind("click", function (e) {
 
 })
 
+BaseJs.chartOptions = {
+    chart: {
+//            width: 500,
+        height: 400,
+        renderTo: "",
+        type: "line"
+    },
+    title: {
+        text: "",
+        x: -20
+        // center
+    },
+    xAxis: {
+        title: {
+            text: ""
+        },
+        categories: [],
+        labels: {
+            rotation: 340
+        }
+    },
+    yAxis: {
+        title: {
+            text: ""
+        },
+        min: 0,
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: "#808080"
+        }],
+        plotBands: []
+    },
+    tooltip: {
+        formatter: function () {
+            var s = '<b>' + this.x + '</b>';
+            $.each(this.points, function () {
+                s += '<br/>' + this.series.name + ': ' +
+                    this.y;
+            });
+            return s;
+        },
+        valueSuffix: ""
+    },
+    legend: {
+        x: 0,
+        y: 0,
+        floating: false,
+        margin: 0,
+        itemStyle: {
+            color: 'green',
+            fontWeight: 'bold'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: true
+        }
+    },
+    credits: {
+        enabled: false
+    },
+    colors: ['#8085e8', '#FFB90F', '#91e8e1', '#f15c80', '#FF00FF', '#8d4653', '#e4d354', '#7cb5ec', '#434348', '#8085e9'],
+    series: [],
+    lang: {
+        noData: "无数据"
+    },
+    exporting: {
+        filename: 'chart-file'
+    }
+};
 //加载中
 BaseJs.loading = function () {
     return layer.load(0, {shade: [0.8, '#393D49']});
@@ -157,4 +231,18 @@ BaseJs.openDialog = function (url, title, width, top, callback) {
             });
         }
     });
+};
+
+//深复制对象方法
+BaseJs.deepCloneObj = function (obj) {
+    var newObj = {};
+    if (obj instanceof Array) {
+        newObj = [];
+    }
+    for (var key in obj) {
+        var val = obj[key];
+        //newObj[key] = typeof val == 'object' ? arguments.callee(val) : val; //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。
+        newObj[key] = typeof val == 'object' ? BaseJs.deepCloneObj(val): val;
+    }
+    return newObj;
 };
