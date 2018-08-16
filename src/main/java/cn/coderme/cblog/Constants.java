@@ -7,6 +7,11 @@ package cn.coderme.cblog;
  */
 public class Constants {
 
+    public static final String KEY_RATELIMITENABLED = "rateLimitEnabled";
+    public static final String KEY_MINUTELIMIT = "minuteLimit";
+    public static final String KEY_DAYLIMIT = "dayLimit";
+    public static final String KEY_DAYLIMIT_USED = "dayLimitUsed";
+
     /**
      * bing 国家
      * au：澳大利亚
