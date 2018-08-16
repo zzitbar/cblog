@@ -82,6 +82,22 @@ public class RedisUtil {
         }
     }
 
+    /**
+     * 更改 key 值
+     * @param oldKey
+     * @param newKey
+     * @return
+     */
+    public boolean renameKey(String oldKey, String newKey) {
+//        if (this.hasKey(newKey)) {
+//            return false;
+//        }
+        if (this.hasKey(oldKey)) {
+            return redisTemplate.renameIfAbsent(oldKey, newKey);
+        }
+        return false;
+    }
+
     //============================String=============================  
 
     /**

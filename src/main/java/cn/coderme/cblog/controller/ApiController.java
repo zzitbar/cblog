@@ -66,6 +66,8 @@ public class ApiController {
                 throw new BusException("请登录");
             }
             User user = userService.findByUsername(currentUser.getPrincipal().toString());
+            String oldKey = user.getAppSecret();
+
             user.setAppSecret(Md5Utils.getMD5ofStr(user.getEmail(), user.getAppSecret())+ ValidateCodeUtils.generate().toLowerCase());
             user.setUpdateTime(new Date());
             userService.save(user);
@@ -75,14 +77,7 @@ public class ApiController {
             myShiroRealm.setSession("user", user);
 
             // 更新 redis
-            redisUtil.del(user.getAppSecret());
-            Map hmap = new HashMap();
-            hmap.put(Constants.KEY_RATELIMITENABLED, openApiConfig.getEnabled());
-            hmap.put(Constants.KEY_MINUTELIMIT, openApiConfig.getMinuteLimit());
-            hmap.put(Constants.KEY_DAYLIMIT, openApiConfig.getDayLimit());
-
-            redisUtil.hmset(user.getAppSecret(), hmap);
-
+            redisUtil.renameKey(oldKey, user.getAppSecret());
         } catch (Exception e) {
             logger.error("重置APPsecret出错", e);
             result.setStatus(ResultJson.FAILED);

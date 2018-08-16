@@ -23,6 +23,7 @@ import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -125,12 +126,23 @@ public class BingUtils {
                 bingCnDto.getImages().stream().forEach(x -> {
                     LocalDate date = LocalDate.parse(x.getStartdate(), dtf);
                     BingImageArchive imageArchive = new BingImageArchive();
-                    imageArchive.setImageTitle(x.getCopyright());
+
+                    String imageTitle = x.getCopyright();
+                    String[] alts2 = imageTitle.split("\\(©", 2);
+                    String[] alts1 = alts2[0].split("，", 2);
+
+                    imageArchive.setImageTitle(alts1[0]);
+                    imageArchive.setImagePlace(alts1.length>=2?alts1[1]:null);
+                    imageArchive.setImageProvider(alts2.length>=2?"(@"+alts2[1]:null);
+
                     imageArchive.setOriginUrl("http://s.cn.bing.net"+x.getUrl());
                     imageArchive.setImageDate(x.getStartdate());
-                    imageArchive.setImageDateEnd(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    imageArchive.setImageDateEnd(date.plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                     imageArchive.setImageAlt(x.getCopyright());
                     imageArchive.setImageZone(Constants.IMAGE_ZONE.CN.getValue());
+
+                    imageArchive.setCopyrightlink(x.getCopyrightlink());
+                    imageArchive.setCreateTime(new Date());
 
                     imageArchive.setImageUrl(BingUtils.BASE_DIR+"/"+imageArchive.getImageZone()+"/"+imageArchive.getImageDate());
                     FetchRetDto fetchRetDto = qiniuUtils.fetctToUpload(imageArchive.getOriginUrl(), imageArchive.getImageUrl());
