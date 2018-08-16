@@ -3,6 +3,33 @@ var BaseJs={};
 BaseJs.baseUrl = "";
 BaseJs.POST = "POST";
 BaseJs.SUCCESS="success";
+BaseJs.jwtToken = "";
+
+$.ajaxSetup({
+    cache:false,
+    ifModified :true ,
+    timeout : 60000, //超时时间设置，单位毫秒
+    //发送请求前触发
+    beforeSend: function (XMLHttpRequest) {
+        XMLHttpRequest.setRequestHeader('Authorization', window.localStorage.getItem("token"));
+    },
+    complete:function(XMLHttpRequest,textStatus){
+        if(textStatus=="parsererror"){
+            layer.closeAll();
+            BaseJs.showError("登陆超时！请重新登陆！");
+            var originUrl = window.location.href, redirectUrl = "";
+            redirectUrl = "/login";
+            if (self != top) {
+                window.parent.location.href=redirectUrl;
+            } else {
+                window.location.href=redirectUrl;
+            }
+        } else if(textStatus=="error"){
+            layer.closeAll();
+            BaseJs.showError("请求超时！请稍后再试！");
+        }
+    }
+});
 
 $(".share-open").bind("click", function (e) {
 

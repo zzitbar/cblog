@@ -162,3 +162,11 @@ a:hover{
 .image-info {
     font-size: 12px;
 }
+
+.label-danger,
+.label-info,
+.label-warning,
+.label-primary,
+.label-success{
+    color: #fff !important;
+}

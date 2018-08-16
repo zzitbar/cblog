@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "sys_user")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 public class User implements Serializable {
  
     private static final long serialVersionUID = 1L;
@@ -23,6 +24,10 @@ public class User implements Serializable {
     private String password;
     private Date createTime;
     private Date updateTime;
+    private String appSecret;
+
+    private Integer minuteLimit;//每分钟调用限制
+    private Integer dayLimit;//每天调用限制
 
     public Long getId() {
         return id;
@@ -78,5 +83,29 @@ public class User implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getAppSecret() {
+        return appSecret;
+    }
+
+    public void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
+    }
+
+    public Integer getMinuteLimit() {
+        return minuteLimit;
+    }
+
+    public void setMinuteLimit(Integer minuteLimit) {
+        this.minuteLimit = minuteLimit;
+    }
+
+    public Integer getDayLimit() {
+        return dayLimit;
+    }
+
+    public void setDayLimit(Integer dayLimit) {
+        this.dayLimit = dayLimit;
     }
 }
