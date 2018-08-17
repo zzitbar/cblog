@@ -4,9 +4,10 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * Created By zhangtengfei
+ * Created By zzitbar
  * Date:2018/4/28
  * Time:11:36
  */
@@ -30,6 +31,9 @@ public class BingImageArchive implements Serializable {
     private String originUrl;//原始url
 
     private String imageDateEnd;//图片显示截至日期
+
+    private String copyrightlink;
+    private Date createTime;
 
     public Long getId() {
         return id;
@@ -109,5 +113,21 @@ public class BingImageArchive implements Serializable {
 
     public void setImageDateEnd(String imageDateEnd) {
         this.imageDateEnd = imageDateEnd;
+    }
+
+    public String getCopyrightlink() {
+        return copyrightlink;
+    }
+
+    public void setCopyrightlink(String copyrightlink) {
+        this.copyrightlink = copyrightlink;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

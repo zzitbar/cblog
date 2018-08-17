@@ -10,11 +10,13 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableCaching // 启动缓存
 @EnableScheduling// 启用定时
+@EnableRedisHttpSession //启用session redis
 //@MapperScan("cn.coderme.cblog.dao")
 public class CblogApplication {
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Time:16:01
  */
 @Controller
-@RequestMapping("/rest/bing")
+@RequestMapping("/api/bing")
 public class BingRestService {
 
     @Autowired

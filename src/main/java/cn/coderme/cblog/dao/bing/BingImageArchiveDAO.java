@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 /**
- * Created By zhangtengfei
+ * Created By zzitbar
  * Date:2018/4/28
  * Time:11:40
  */
