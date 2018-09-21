@@ -2,8 +2,10 @@ package cn.coderme.cblog.controller;
 
 import cn.coderme.cblog.base.GeetestConfig;
 import cn.coderme.cblog.utils.GeetestLib;
+import cn.coderme.cblog.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,12 +20,15 @@ import java.util.Map;
  * Date:2018/8/14
  * Time:14:57
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/geetest")
 public class GeetestController {
 
     @Autowired
     private GeetestConfig geetestConfig;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @RequestMapping(value = "/startCaptcha", method = RequestMethod.GET)
     @ResponseBody
@@ -34,14 +39,17 @@ public class GeetestController {
         String userid = request.getSession().getId();
 
         //自定义参数,可选择添加
-        HashMap<String, String> param = new HashMap<String, String>();
+        HashMap param = new HashMap();
         param.put("user_id", userid); //网站用户id
         param.put("client_type", "web"); //web:电脑上的浏览器；h5:手机上的浏览器，包括移动应用内完全内置的web_view；native：通过原生SDK植入APP应用的方式
         param.put("ip_address", request.getRemoteAddr()); //传输用户请求验证时所携带的IP
 
         //进行验证预处理
         int gtServerStatus = gtSdk.preProcess(param);
+        param.put(gtSdk.gtServerStatusSessionKey, gtServerStatus);
         //将服务器状态设置到session中
+//        request.getSession().getId();
+        redisUtil.hmset(request.getSession().getId(), param);
         request.getSession().setAttribute(gtSdk.gtServerStatusSessionKey, gtServerStatus);
         //将userid设置到session中
         request.getSession().setAttribute("userid", userid);
