@@ -22,7 +22,6 @@ import java.util.List;
  * Date:2018/4/24
  * Time:16:25
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/admin/category")
 public class ArticleCategoryController {

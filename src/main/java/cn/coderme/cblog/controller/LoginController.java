@@ -7,10 +7,7 @@ import cn.coderme.cblog.base.ResultJson;
 import cn.coderme.cblog.config.MyShiroRealm;
 import cn.coderme.cblog.entity.User;
 import cn.coderme.cblog.service.UserService;
-import cn.coderme.cblog.utils.AliMailUtils;
-import cn.coderme.cblog.utils.Md5Utils;
-import cn.coderme.cblog.utils.RedisUtil;
-import cn.coderme.cblog.utils.ValidateCodeUtils;
+import cn.coderme.cblog.utils.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -36,7 +33,6 @@ import java.util.Map;
  * Date:2018/5/9
  * Time:13:32
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("")
 public class LoginController {
@@ -295,6 +291,40 @@ public class LoginController {
                 result.setErrorMsg(e.getMessage());
             } else {
                 result.setErrorMsg("修改密码出错");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * JWT 登录
+     * @param username
+     * @param password
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/jwt/login", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultJson loginJwt(String username, String password, HttpServletRequest request) {
+        ResultJson result = new ResultJson();
+        try {
+            // 校验验证码
+            Map map = geetestController.verify(request);
+            if (map.get("status").equals("success")) {
+                User user = userService.loginCheck(username, password);
+                String token = JwtUtils.createJavaWebToken(user.getId().toString(), user.getUsername(), new HashMap<>(), -1);
+                redisUtil.set(user.getId()+Constants.REDIS_TOKEN, token, Constants.TOKEN_EXPIRA);
+                result.setData(token);
+            } else {
+                throw new BusException("验证失败，请重试");
+            }
+        } catch (Exception e) {
+            logger.error("登录出错", e);
+            result.setStatus(ResultJson.FAILED);
+            if (e instanceof BusException) {
+                result.setErrorMsg(e.getMessage());
+            } else {
+                result.setErrorMsg("登录出错");
             }
         }
         return result;

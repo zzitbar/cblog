@@ -17,7 +17,6 @@ import java.util.List;
  * Date:2018/4/23
  * Time:11:22
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/tags")
 public class ArticleTagsController {

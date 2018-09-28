@@ -3,6 +3,7 @@ package cn.coderme.cblog.controller;
 import cn.coderme.cblog.base.GeetestConfig;
 import cn.coderme.cblog.utils.GeetestLib;
 import cn.coderme.cblog.utils.RedisUtil;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,7 +21,6 @@ import java.util.Map;
  * Date:2018/8/14
  * Time:14:57
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/geetest")
 public class GeetestController {
@@ -32,7 +32,7 @@ public class GeetestController {
 
     @RequestMapping(value = "/startCaptcha", method = RequestMethod.GET)
     @ResponseBody
-    public String startCaptcha(HttpServletRequest request) {
+    public Map startCaptcha(HttpServletRequest request) {
         GeetestLib gtSdk = new GeetestLib(geetestConfig.getGeetestId(), geetestConfig.getGeetestKey(),
                 geetestConfig.isnewfailback());
         String resStr = "{}";
@@ -55,7 +55,9 @@ public class GeetestController {
         request.getSession().setAttribute("userid", userid);
 
         resStr = gtSdk.getResponseStr();
-        return resStr;
+        JSONObject map = JSONObject.parseObject(resStr);
+        map.put("code", 20000);
+        return map;
     }
 
     @RequestMapping(value = "/verify", method = RequestMethod.POST)

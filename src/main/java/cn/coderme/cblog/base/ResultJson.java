@@ -17,6 +17,7 @@ public class ResultJson<T> implements Serializable {
 
     private String errorMsg;
     private T data; // 返回对象
+    private Integer code = 20000;
 
     public T getData() {
         return data;
@@ -25,6 +26,7 @@ public class ResultJson<T> implements Serializable {
     public void setData(T data) {
         this.data = data;
     }
+
     public String getStatus() {
         return status;
     }
@@ -41,4 +43,11 @@ public class ResultJson<T> implements Serializable {
         this.errorMsg = errorMsg;
     }
 
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
 }

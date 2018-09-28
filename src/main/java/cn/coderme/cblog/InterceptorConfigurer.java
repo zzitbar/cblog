@@ -2,6 +2,7 @@ package cn.coderme.cblog;
 
 import cn.coderme.cblog.interceptors.LogInterceptor;
 import cn.coderme.cblog.interceptors.RateLimitingInterceptor;
+import cn.coderme.cblog.interceptors.TokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -21,6 +22,8 @@ public class InterceptorConfigurer extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/api/**");        // 指定该类拦截的url
         registry.addInterceptor(getLogInterceptor())    // 接口日志记录拦截器类
                 .addPathPatterns("/api/**");        // 指定该类拦截的url
+        registry.addInterceptor(getTokenInterceptor())    // 后台管理拦截器类
+                .addPathPatterns("/admin/**", "/user/**");        // 指定该类拦截的url
     }
 
     @Bean
@@ -31,5 +34,10 @@ public class InterceptorConfigurer extends WebMvcConfigurerAdapter {
     @Bean
     public LogInterceptor getLogInterceptor() {
         return new LogInterceptor();
+    }
+
+    @Bean
+    public TokenInterceptor getTokenInterceptor() {
+        return new TokenInterceptor();
     }
 }

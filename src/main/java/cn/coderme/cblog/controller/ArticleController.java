@@ -26,7 +26,6 @@ import java.util.List;
  * Time:16:06
  */
 // 允许跨域
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("")
 public class ArticleController {

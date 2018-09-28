@@ -12,6 +12,10 @@ public class Constants {
     public static final String KEY_DAYLIMIT = "dayLimit";
     public static final String KEY_DAYLIMIT_USED = "dayLimitUsed";
 
+    public static final String REDIS_TOKEN = "_TOKEN";
+
+    public static final Long TOKEN_EXPIRA = 7200L; // TOKEN 失效时间（秒）
+
     /**
      * bing 国家
      * au：澳大利亚
