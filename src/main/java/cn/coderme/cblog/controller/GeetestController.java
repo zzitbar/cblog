@@ -49,7 +49,7 @@ public class GeetestController {
         param.put(gtSdk.gtServerStatusSessionKey, gtServerStatus);
         //将服务器状态设置到session中
 //        request.getSession().getId();
-        redisUtil.hmset(request.getSession().getId(), param);
+        redisUtil.hmset(request.getSession().getId(), param, 60000);
         request.getSession().setAttribute(gtSdk.gtServerStatusSessionKey, gtServerStatus);
         //将userid设置到session中
         request.getSession().setAttribute("userid", userid);

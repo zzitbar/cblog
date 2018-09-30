@@ -22,6 +22,10 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
+    public User getById(Long id) {
+        return userDAO.findOne(id);
+    }
+
     @Transactional
     public void save(User user) {
         userDAO.save(user);

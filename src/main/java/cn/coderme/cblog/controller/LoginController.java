@@ -8,6 +8,7 @@ import cn.coderme.cblog.config.MyShiroRealm;
 import cn.coderme.cblog.entity.User;
 import cn.coderme.cblog.service.UserService;
 import cn.coderme.cblog.utils.*;
+import io.jsonwebtoken.Claims;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -247,17 +247,17 @@ public class LoginController {
 //        return result;
 //    }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    @ResponseBody
-    public ResultJson logout() {
-        ResultJson result = new ResultJson();
-        Subject currentUser = SecurityUtils.getSubject();
-        if (currentUser.isAuthenticated()) {
-            currentUser.logout();
-        }
-        result.setData("");
-        return result;
-    }
+//    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ResultJson logout() {
+//        ResultJson result = new ResultJson();
+//        Subject currentUser = SecurityUtils.getSubject();
+//        if (currentUser.isAuthenticated()) {
+//            currentUser.logout();
+//        }
+//        result.setData("");
+//        return result;
+//    }
 
     /**
      * 修改密码
@@ -309,15 +309,15 @@ public class LoginController {
         ResultJson result = new ResultJson();
         try {
             // 校验验证码
-            Map map = geetestController.verify(request);
-            if (map.get("status").equals("success")) {
+//            Map map = geetestController.verify(request);
+//            if (map.get("status").equals("success")) {
                 User user = userService.loginCheck(username, password);
                 String token = JwtUtils.createJavaWebToken(user.getId().toString(), user.getUsername(), new HashMap<>(), -1);
                 redisUtil.set(user.getId()+Constants.REDIS_TOKEN, token, Constants.TOKEN_EXPIRA);
                 result.setData(token);
-            } else {
-                throw new BusException("验证失败，请重试");
-            }
+//            } else {
+//                throw new BusException("验证失败，请重试");
+//            }
         } catch (Exception e) {
             logger.error("登录出错", e);
             result.setStatus(ResultJson.FAILED);
@@ -328,6 +328,23 @@ public class LoginController {
             }
         }
         return result;
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultJson logout(HttpServletRequest request) {
+        ResultJson responseData = ResultJson.ok();
+        String token = request.getHeader("X-Token");
+        Claims claims = JwtUtils.verifyJavaWebToken(token);
+        if (null == claims) {
+            // TOKEN校验失败
+            responseData = ResultJson.forbidden();
+            responseData.setErrorMsg("TOKEN校验失败");
+        } else {
+            String userId = claims.getId();
+            redisUtil.del(userId+ Constants.REDIS_TOKEN);
+        }
+        return responseData;
     }
 
     public static void main(String[] args) {

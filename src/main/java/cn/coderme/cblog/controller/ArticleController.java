@@ -72,11 +72,13 @@ public class ArticleController {
      */
     @RequestMapping(value = "/admin/article/page", method = RequestMethod.POST)
     @ResponseBody
-    public PageBean<Article> page(PageDto dto, HttpServletResponse response) {
+    public ResultJson page(PageDto dto, HttpServletResponse response) {
         dto.getOrderByMap().put("id", PageDto.DESC);
         dto.getOrderByMap().put("articleUpdateDate", PageDto.DESC);
         PageBean<Article> pageBean = articleService.page(dto);
-        return pageBean;
+        ResultJson result = ResultJson.ok();
+        result.setData(pageBean);
+        return result;
     }
 
     /**
@@ -111,9 +113,11 @@ public class ArticleController {
 
     @RequestMapping(value = "/admin/article/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Article get(@PathVariable Long id) {
+    public ResultJson get(@PathVariable Long id) {
         Article article = articleService.getById(id);
-        return article;
+        ResultJson result = new ResultJson();
+        result.setData(article);
+        return result;
     }
 
     /**

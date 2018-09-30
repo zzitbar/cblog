@@ -9,10 +9,12 @@ import cn.coderme.cblog.dto.chart.ChartDto;
 import cn.coderme.cblog.entity.User;
 import cn.coderme.cblog.service.ApiLogService;
 import cn.coderme.cblog.service.UserService;
+import cn.coderme.cblog.utils.JwtUtils;
 import cn.coderme.cblog.utils.Md5Utils;
 import cn.coderme.cblog.utils.RedisUtil;
 import cn.coderme.cblog.utils.ValidateCodeUtils;
 import com.google.common.util.concurrent.RateLimiter;
+import io.jsonwebtoken.Claims;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,36 +63,27 @@ public class ApiController {
      */
     @RequestMapping(value = "/resetAppSecret", method = RequestMethod.POST)
     @ResponseBody
-    public ResultJson resetAppSecret() {
-        ResultJson result = new ResultJson();
-        try {
-            Subject currentUser = SecurityUtils.getSubject();
-            if (!currentUser.isAuthenticated()) {
-                throw new BusException("请登录");
-            }
-            User user = userService.findByUsername(currentUser.getPrincipal().toString());
+    public ResultJson resetAppSecret(HttpServletRequest request) {
+        ResultJson responseData = ResultJson.ok();
+        String token = request.getHeader("X-Token");
+        Claims claims = JwtUtils.verifyJavaWebToken(token);
+        if (null == claims) {
+            // TOKEN校验失败
+            responseData = ResultJson.forbidden();
+            responseData.setErrorMsg("TOKEN校验失败");
+        } else {
+            String userId = claims.getId();
+            User user = userService.getById(Long.valueOf(userId));
             String oldKey = user.getAppSecret();
 
             user.setAppSecret(Md5Utils.getMD5ofStr(user.getEmail(), user.getAppSecret())+ ValidateCodeUtils.generate().toLowerCase());
             user.setUpdateTime(new Date());
             userService.save(user);
-            result.setData(user.getAppSecret());
-
-            // 更新 session
-            myShiroRealm.setSession("user", user);
-
+            responseData.setData(user.getAppSecret());
             // 更新 redis
             redisUtil.renameKey(oldKey, user.getAppSecret());
-        } catch (Exception e) {
-            logger.error("重置APPsecret出错", e);
-            result.setStatus(ResultJson.FAILED);
-            if (e instanceof BusException) {
-                result.setErrorMsg(e.getMessage());
-            } else {
-                result.setErrorMsg("重置APPsecret出错");
-            }
         }
-        return result;
+        return responseData;
     }
 
     /**

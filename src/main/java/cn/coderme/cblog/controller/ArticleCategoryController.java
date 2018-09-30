@@ -48,10 +48,12 @@ public class ArticleCategoryController {
      */
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     @ResponseBody
-    public PageBean<ArticleCategory> page(PageDto dto) {
+    public ResultJson page(PageDto dto) {
         dto.getOrderByMap().put("createTime", PageDto.DESC);
         PageBean<ArticleCategory> pageBean = articleCategoryService.page(dto);
-        return pageBean;
+        ResultJson result = ResultJson.ok();
+        result.setData(pageBean);
+        return result;
     }
 
     /**
@@ -85,7 +87,9 @@ public class ArticleCategoryController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public List<ArticleCategory> list() {
-        return articleCategoryService.findAll();
+    public ResultJson list() {
+        ResultJson result = ResultJson.ok();
+        result.setData(articleCategoryService.findAll());
+        return result;
     }
 }

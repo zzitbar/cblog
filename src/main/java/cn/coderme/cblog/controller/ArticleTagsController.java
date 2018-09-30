@@ -1,5 +1,6 @@
 package cn.coderme.cblog.controller;
 
+import cn.coderme.cblog.base.ResultJson;
 import cn.coderme.cblog.entity.ArticleTags;
 import cn.coderme.cblog.service.ArticleTagsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,14 @@ public class ArticleTagsController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> list() {
+    public ResultJson list() {
         List<ArticleTags> tags = articleTagsService.findAll();
-        List<String> result = new ArrayList<String>(tags.size());
+        List<String> list = new ArrayList<String>(tags.size());
         for (ArticleTags tags1 : tags) {
-            result.add(tags1.getTagTitle());
+            list.add(tags1.getTagTitle());
         }
+        ResultJson result = ResultJson.ok();
+        result.setData(list);
         return result;
     }
 
@@ -42,12 +45,14 @@ public class ArticleTagsController {
      */
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> search(String tagTitle) {
+    public ResultJson search(String tagTitle) {
         List<ArticleTags> tags = articleTagsService.findByTagTitleLike(tagTitle);
-        List<String> result = new ArrayList<String>(tags.size());
+        List<String> list = new ArrayList<String>(tags.size());
         for (ArticleTags tags1 : tags) {
-            result.add(tags1.getTagTitle());
+            list.add(tags1.getTagTitle());
         }
+        ResultJson result = ResultJson.ok();
+        result.setData(list);
         return result;
     }
 }
