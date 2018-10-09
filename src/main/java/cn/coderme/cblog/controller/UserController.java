@@ -15,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +67,7 @@ public class UserController {
             Map userInfo = new HashMap();
             userInfo.put("name", user.getName());
             userInfo.put("email", user.getEmail());
-            userInfo.put("createTime", user.getCreateTime());
+            userInfo.put("createTime", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(user.getCreateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));
             userInfo.put("appSecret", user.getAppSecret());
             userInfo.put("minuteLimit", user.getMinuteLimit());
             userInfo.put("dayLimit", user.getDayLimit());

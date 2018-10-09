@@ -4,7 +4,6 @@ import cn.coderme.cblog.BusException;
 import cn.coderme.cblog.Constants;
 import cn.coderme.cblog.base.OpenApiConfig;
 import cn.coderme.cblog.base.ResultJson;
-import cn.coderme.cblog.config.MyShiroRealm;
 import cn.coderme.cblog.dto.chart.ChartDto;
 import cn.coderme.cblog.entity.User;
 import cn.coderme.cblog.service.ApiLogService;
@@ -43,8 +42,6 @@ public class ApiController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private MyShiroRealm myShiroRealm;
     @Autowired
     private OpenApiConfig openApiConfig;
     @Autowired
@@ -92,23 +89,34 @@ public class ApiController {
      */
     @PostMapping("/report")
     @ResponseBody
-    public ChartDto report(Integer duration) {
-        Subject currentUser = SecurityUtils.getSubject();
-        if (!currentUser.isAuthenticated()) {
-            throw new BusException("请登录");
+    public ResultJson report(Integer duration, HttpServletRequest request) {
+//        Subject currentUser = SecurityUtils.getSubject();
+//        if (!currentUser.isAuthenticated()) {
+//            throw new BusException("请登录");
+//        }
+        ResultJson result = new ResultJson();
+        String token = request.getHeader("X-Token");
+        Claims claims = JwtUtils.verifyJavaWebToken(token);
+        if (null == claims) {
+            // TOKEN校验失败
+            result = ResultJson.forbidden();
+            result.setErrorMsg("TOKEN校验失败");
+        } else {
+            String userId = claims.getId();
+            User user = userService.getById(Long.valueOf(userId));
+            ChartDto chartDto = new ChartDto();
+            LocalDate now = LocalDate.now();
+            if (Constants.API_REPORT_DURATION.TODAY.getValue().equals(duration)) {
+                chartDto = apiLogService.hourData(user.getId(), now, now.plusDays(1), duration);
+            } else if (Constants.API_REPORT_DURATION.YESTERDAY.getValue().equals(duration)) {
+                chartDto = apiLogService.hourData(user.getId(), now.minusDays(1), now, duration);
+            } else if (Constants.API_REPORT_DURATION.SEVEN_DAYS.getValue().equals(duration)) {
+                chartDto = apiLogService.dayData(user.getId(), now.minusDays(6), now.plusDays(1), duration);
+            } else if (Constants.API_REPORT_DURATION.THIRTY_DAYS.getValue().equals(duration)) {
+                chartDto = apiLogService.dayData(user.getId(), now.minusDays(29), now.plusDays(1), duration);
+            }
+            result.setData(chartDto);
         }
-        User user = userService.findByUsername(currentUser.getPrincipal().toString());
-        ChartDto chartDto = new ChartDto();
-        LocalDate now = LocalDate.now();
-        if (Constants.API_REPORT_DURATION.TODAY.getValue().equals(duration)) {
-            chartDto = apiLogService.hourData(user.getId(), now, now.plusDays(1), duration);
-        } else if (Constants.API_REPORT_DURATION.YESTERDAY.getValue().equals(duration)) {
-            chartDto = apiLogService.hourData(user.getId(), now.minusDays(1), now, duration);
-        } else if (Constants.API_REPORT_DURATION.SEVEN_DAYS.getValue().equals(duration)) {
-            chartDto = apiLogService.dayData(user.getId(), now.minusDays(6), now.plusDays(1), duration);
-        } else if (Constants.API_REPORT_DURATION.THIRTY_DAYS.getValue().equals(duration)) {
-            chartDto = apiLogService.dayData(user.getId(), now.minusDays(29), now.plusDays(1), duration);
-        }
-        return chartDto;
+        return result;
     }
 }

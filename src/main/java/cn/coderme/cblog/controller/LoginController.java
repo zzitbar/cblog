@@ -4,7 +4,6 @@ import cn.coderme.cblog.BusException;
 import cn.coderme.cblog.Constants;
 import cn.coderme.cblog.base.OpenApiConfig;
 import cn.coderme.cblog.base.ResultJson;
-import cn.coderme.cblog.config.MyShiroRealm;
 import cn.coderme.cblog.entity.User;
 import cn.coderme.cblog.service.UserService;
 import cn.coderme.cblog.utils.*;
@@ -46,8 +45,6 @@ public class LoginController {
     private AliMailUtils aliMailUtils;
     @Autowired
     private RedisUtil redisUtil;
-    @Autowired
-    private MyShiroRealm myShiroRealm;
     @Autowired
     private OpenApiConfig openApiConfig;
 
@@ -198,7 +195,7 @@ public class LoginController {
                 User user = userService.findByUsername(username);
                 AuthenticationToken token = new UsernamePasswordToken(username, new String(DigestUtils.md5DigestAsHex(password.getBytes())));
                 currentUser.login(token);
-                myShiroRealm.setSession("user", user);
+//                myShiroRealm.setSession("user", user);
             } else {
                 throw new BusException("验证失败，请重试");
             }
