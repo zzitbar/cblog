@@ -160,8 +160,8 @@ public class ArticleService {
                 articleTags.setTagPublishedRefCount(1);
                 articleTags.setTagReferenceCount(1);
                 articleTags.setArticles(new ArrayList<>());
-//                    articleTags.getArticles().add(ex);
-//                    articleTagsDAO.save(articleTags);
+                    articleTags.getArticles().add(article);
+                    articleTagsDAO.save(articleTags);
             } else if (!oldTags.contains(tag)) {
                 articleTags.setTagReferenceCount(articleTags.getTagReferenceCount()+1);
                 articleTags.setTagPublishedRefCount(articleTags.getTagPublishedRefCount()+1);
