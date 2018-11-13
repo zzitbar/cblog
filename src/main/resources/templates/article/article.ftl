@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/favicon.png" type="image/png"/>
     <link rel="canonical" href="http://zzitbar.com/"/>
     <meta name="referrer" content="no-referrer-when-downgrade"/>
-    <link rel="next" href="http://zzitbar.com/page/2/"/>
+    <#--<link rel="next" href="http://zzitbar.com/page/2/"/>-->
     <#--<link rel="stylesheet" href="${request.contextPath}/static/js/editormd/css/editormd.min.css">-->
 </head>
 <body class="paged nav-closed">
@@ -55,7 +55,7 @@
     <main class="content" role="main">
         <article class="post tag-openwrt">
 
-            <header class="post-header">
+            <header class="post-header" style="margin-bottom: 15px">
                 <h1 class="post-title">${article.articleTitle!}</h1>
                 <section class="post-meta">
                     <img class="author-thumb"
@@ -78,6 +78,7 @@
                 <div class="kg-card-markdown" id="doc-content">
                     <textarea style="display:none;">${article.articleContent!}</textarea>
                 </div>
+                
             </section>
         </article>
     </main>

@@ -30,8 +30,8 @@
     <ul>
         <li class="nav- nav-current"><a href="${ctx}/">主页</a></li>
         <li class="nav-"><a href="${ctx}/">归档</a></li>
-        <li class="nav-"><a href="${ctx}/link/">友链</a></li>
-        <li class="nav-"><a href="${ctx}/about/">关于</a></li>
+        <li class="nav-"><a href="${ctx}/link">友链</a></li>
+        <li class="nav-"><a href="${ctx}/about">关于</a></li>
     </ul>
 
     <a class="subscribe-button icon-feed" href="${ctx}/rss/">Subscribe</a>
@@ -66,9 +66,11 @@
             <header class="post-header">
                 <h2 class="post-title"><a href="${ctx}/article/${article.id!}">${article.articleTitle!}</a></h2>
             </header>
-            <section class="post-excerpt">
-                <p>${article.articleAbstract!}<a class="read-more" href="${ctx}/article/${article.id!}">&raquo;</a></p>
-            </section>
+            <#if article.articleAbstract?? && article.articleAbstract != "">
+                <section class="post-excerpt">
+                    <p>${article.articleAbstract!}<a class="read-more" href="${ctx}/article/${article.id!}">&raquo;</a></p>
+                </section>
+            </#if>
             <footer class="post-meta">
                 <img class="author-thumb"
                      src="http://p7mkg1wor.bkt.clouddn.com//avatar/timg.jpg"

@@ -28,12 +28,22 @@ public class FrontController {
 
     @RequestMapping("")
     public String index(PageDto dto, Model model) {
-        dto.getOrderByMap().put("id", PageDto.DESC);
         dto.getOrderByMap().put("articleUpdateDate", PageDto.DESC);
+        dto.getOrderByMap().put("id", PageDto.DESC);
         PageBean<Article> articles = articleService.page(dto);
         BingImageArchive image = bingImageArchiveService.findTodayCnImage();
         model.addAttribute("bingToday", image);
         model.addAttribute("articles", articles);
         return "index";
+    }
+
+    @RequestMapping("/about")
+    public String about() {
+        return "about";
+    }
+
+    @RequestMapping("/link")
+    public String link() {
+        return "link";
     }
 }
