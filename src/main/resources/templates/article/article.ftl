@@ -19,8 +19,8 @@
     <link rel="shortcut icon" href="/favicon.png" type="image/png"/>
     <link rel="canonical" href="http://zzitbar.com/"/>
     <meta name="referrer" content="no-referrer-when-downgrade"/>
-    <#--<link rel="next" href="http://zzitbar.com/page/2/"/>-->
-    <#--<link rel="stylesheet" href="${request.contextPath}/static/js/editormd/css/editormd.min.css">-->
+<#--<link rel="next" href="http://zzitbar.com/page/2/"/>-->
+<#--<link rel="stylesheet" href="${request.contextPath}/static/js/editormd/css/editormd.min.css">-->
 </head>
 <body class="paged nav-closed">
 <div class="nav">
@@ -33,6 +33,7 @@
         <li class="nav-"><a href="${ctx}/">归档</a></li>
         <li class="nav-"><a href="${ctx}/link/">友链</a></li>
         <li class="nav-"><a href="${ctx}/about/">关于</a></li>
+        <li class="nav-"><a href="${ctx}/hotnews">热点</a></li>
     </ul>
 
     <a class="subscribe-button icon-feed" href="${ctx}/rss/">Subscribe</a>
@@ -59,7 +60,7 @@
                 <h1 class="post-title">${article.articleTitle!}</h1>
                 <section class="post-meta">
                     <img class="author-thumb"
-                         src="http://p7mkg1wor.bkt.clouddn.com//avatar/timg.jpg"
+                         src="http://cdn.zzitbar.com//avatar/timg.jpg"
                          alt="${article.author!"zzitbar"}" nopin="nopin"/>
                     <a href="#">${article.author!"zzitbar"}</a>
 
@@ -75,10 +76,8 @@
                 <#if article.articleAbstract?? && ""!=article.articleAbstract>
                 <pre>${article.articleAbstract!}</pre>
                 </#if>
-                <div class="kg-card-markdown" id="doc-content">
-                    <textarea style="display:none;">${article.articleContent!}</textarea>
-                </div>
-                
+                <div id="content">${article.articleContent!}</div>
+
             </section>
         </article>
     </main>
@@ -94,29 +93,15 @@
 </div>
 <div class="-mob-share-ui-bg"></div>
 <script src="${ctx}/static/js/jquery-2.2.3.min.js"></script>
-<script src="${request.contextPath}/static/js/editormd/js/editormd.js"></script>
-<script src="${request.contextPath}/static/js/editormd/js/lib/marked.min.js"></script>
-<script src="${request.contextPath}/static/js/editormd/js/lib/prettify.min.js"></script>
-<script src="${request.contextPath}/static/js/editormd/js/lib/raphael.min.js"></script>
-<script src="${request.contextPath}/static/js/editormd/js/lib/underscore.min.js"></script>
-<script src="${request.contextPath}/static/js/editormd/js/lib/sequence-diagram.min.js"></script>
-<script src="${request.contextPath}/static/js/editormd/js/lib/flowchart.min.js"></script>
-<script src="${request.contextPath}/static/js/editormd/js/lib/jquery.flowchart.min.js"></script>
+<script src="https://cdn.bootcss.com/showdown/1.3.0/showdown.min.js"></script>
 <script src="${request.contextPath}/static/js/front.js"></script>
 
 <script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=2557fb993deeb"></script>
 <script>
     var testEditor;
     $(function () {
-        testEditor = editormd.markdownToHTML("doc-content", {//注意：这里是上面DIV的id
-            htmlDecode: "style,script,iframe",
-            emoji: true,
-            taskList: true,
-            tex: true, // 默认不解析
-            flowChart: true, // 默认不解析
-            sequenceDiagram: true, // 默认不解析
-            codeFold: true
-        });
+        var converter = new showdown.Converter();
+        $('#content').html(converter.makeHtml($("#content").html()));
     });
 </script>
 </body>

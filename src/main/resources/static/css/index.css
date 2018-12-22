@@ -353,20 +353,20 @@ code, tt {
     font-feature-settings: "liga" 0;
 }
 
-pre {
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0 0 1.75em 0;
-    border: #E3EDF3 1px solid;
-    width: 100%;
-    padding: 10px;
-    font-family: Inconsolata, monospace, sans-serif;
-    font-size: 0.9em;
-    white-space: pre;
-    overflow: auto;
-    background: #F7FAFB;
-    border-radius: 3px;
-}
+/*pre {*/
+    /*-moz-box-sizing: border-box;*/
+    /*box-sizing: border-box;*/
+    /*margin: 0 0 1.75em 0;*/
+    /*border: #E3EDF3 1px solid;*/
+    /*width: 100%;*/
+    /*padding: 10px;*/
+    /*font-family: Inconsolata, monospace, sans-serif;*/
+    /*font-size: 0.9em;*/
+    /*white-space: pre;*/
+    /*overflow: auto;*/
+    /*background: #F7FAFB;*/
+    /*border-radius: 3px;*/
+/*}*/
 
 pre code, pre tt {
     font-size: inherit;
@@ -2327,3 +2327,28 @@ body.page-template .post-title {
    End of file. Animations should be the last thing here. Do not add stuff
    below this point, or it will probably fuck everything up.
    ========================================================================== */
+
+pre code {
+    overflow-wrap: break-word;
+    margin: 0px 2px;
+    white-space: pre !important;
+    word-wrap: normal !important;
+    word-break: normal !important;
+    overflow: auto !important;
+    line-height: 15px;
+    font-size: 11px;
+    font-weight: normal;
+    word-spacing: -3px;
+    letter-spacing: 0px;
+    font-family: Consolas, Inconsolata, Courier, monospace;
+    border-radius: 0px;
+    border-radius: 3px;
+    border-width: 1px 1px 1px 6px;
+    border-style: solid;
+    border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(204, 204, 204) rgb(33, 152, 99);
+    color: rgb(169, 183, 198);
+    background: rgb(40, 43, 46) none repeat scroll 0% 0%;
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+}
