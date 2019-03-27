@@ -40,7 +40,7 @@
     <p class="copyright"><a href="http://bing.zzitbar.com">bing.zzitbar.com</a></p>
 
     <p>扫一扫加关注</p>
-    <img src="http://p7mkg1wor.bkt.clouddn.com//wechat/qrcode/zzitbar.jpg" width="100px" height="100px;">
+    <img src="http://cdn.zzitbar.com//wechat/qrcode/zzitbar.jpg" width="100px" height="100px;">
 </div>
 
 </body>

@@ -4,8 +4,10 @@ import cn.coderme.cblog.base.TextJson2HttpMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -17,6 +19,10 @@ import org.springframework.web.client.RestTemplate;
 @EnableCaching // 启动缓存
 @EnableScheduling// 启用定时
 @EnableRedisHttpSession //启用session redis
+// 支持java8 新日期类
+@EntityScan(
+        basePackageClasses = {CblogApplication.class, Jsr310JpaConverters.class}
+)
 //@MapperScan("cn.coderme.cblog.dao")
 public class CblogApplication {
 

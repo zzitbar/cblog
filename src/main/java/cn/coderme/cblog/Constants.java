@@ -12,6 +12,8 @@ public class Constants {
     public static final String KEY_DAYLIMIT = "dayLimit";
     public static final String KEY_DAYLIMIT_USED = "dayLimitUsed";
 
+    public static final String CATEGORY_LIST_REDIS_KEY = "categoryList";
+
     public static final String REDIS_TOKEN = "_TOKEN";
 
     public static final Long TOKEN_EXPIRA = 7200L; // TOKEN 失效时间（秒）
@@ -101,4 +103,22 @@ public class Constants {
             }
         }
     }
+
+    public enum CATEGORY_ID {
+        WEIBO(0), WEIXIN(1), BAIDU(2), ZHIHU(3), SOGOU(4), TOUTIAO(5), DOUBAN(6);
+        private Integer value;
+
+        CATEGORY_ID(Integer value) {
+            this.value = value;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+
+        public void setValue(Integer value) {
+            this.value = value;
+        }
+    }
+
 }

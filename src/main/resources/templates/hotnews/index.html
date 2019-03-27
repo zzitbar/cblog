@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>知乎API请求头设置</title>
+
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+    <meta name="description" content="能简单化绝不复杂，zzitbar，java，java学习"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png"/>
+    <link rel="canonical" href="http://zzitbar.com/"/>
+    <meta name="referrer" content="no-referrer-when-downgrade"/>
+</head>
+<body class="paged nav-closed" style="background: #e3e3e3">
+<div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close" onclick="navShow()">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav- nav-current"><a href="${ctx}/">主页</a></li>
+        <li class="nav-"><a href="${ctx}/">归档</a></li>
+        <li class="nav-"><a href="${ctx}/link/">友链</a></li>
+        <li class="nav-"><a href="${ctx}/about/">关于</a></li>
+    </ul>
+
+    <a class="subscribe-button icon-feed" href="${ctx}/rss/">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+<div class="site-wrapper">
+    <header class="main-header " style="background-image: url(${ctx}/bing/today)">
+        <nav class="main-nav overlay clearfix">
+            <a class="menu-button fa fa-reorder" href="#" onclick="navShow()"><span class="word">Menu</span></a>
+        </nav>
+        <div class="vertical">
+            <div class="main-header-content inner">
+                <h1 class="page-title">Simplify</h1>
+                <h2 class="page-description" id="hitokoto">能简单化绝不复杂</h2>
+            </div>
+        </div>
+        <a class="scroll-down fa fa-angle-double-down " href="#content"><span class="hidden">Scroll Down</span></a>
+    </header>
+
+    <main class="content" role="main">
+        <div id="app">
+            <el-button @click="visible = true">Button</el-button>
+            <el-dialog :visible.sync="visible" title="Hello world">
+                <p>Try Element</p>
+            </el-dialog>
+            <el-row type="flex" class="row-bg" justify="center">
+                <el-col :span="5">
+                    <div class="grid-content">
+                        <el-card class="box-card">
+                            <div slot="header" class="clearfix">
+                                <span>热点来源</span>
+                                <el-button style="float: right; padding: 3px 0" type="text">设置</el-button>
+                            </div>
+                            <div v-for="category in categoryList" :key="category.type" class="text item"
+                                 @click="changeContent">
+                                {{category.name }}
+                            </div>
+                        </el-card>
+                    </div>
+                </el-col>
+                <el-col :span="12">
+                    <div class="grid-content">
+                        <el-card class="box-card">
+                            <div slot="header" class="clearfix">
+                                <span>热点来源</span>
+                                <el-button style="float: right; padding: 3px 0" type="text">设置</el-button>
+                            </div>
+                            <div v-for="content in contentList" :key="content" class="text item">
+                                <el-badge class="mark" type="primary" :value="content.rank"/>
+                                <el-button type="text">{{content.title}}</el-button>
+                            </div>
+                        </el-card>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+    </main>
+</div>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                categoryList: [{
+                    name: "微博",
+                    type: "weibo",
+                    icon: ""
+                }, {
+                    name: "百度",
+                    type: "baidu",
+                    icon: ""
+                }, {
+                    name: "知乎",
+                    type: "zhihu",
+                    icon: ""
+                }],
+                contentList: [{
+                    rank: 1,
+                    title: "",
+                }],
+                visible: false
+            }
+        },
+        methods: {
+            changeContent: function (index) {
+                console.log(index);
+            }
+        }
+    })
+</script>
+</body>
+</html>

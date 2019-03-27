@@ -32,6 +32,7 @@
         <li class="nav-"><a href="${ctx}/">归档</a></li>
         <li class="nav-"><a href="${ctx}/link">友链</a></li>
         <li class="nav-"><a href="${ctx}/about">关于</a></li>
+        <li class="nav-"><a href="${ctx}/hotnews">热点</a></li>
     </ul>
 
     <a class="subscribe-button icon-feed" href="${ctx}/rss/">Subscribe</a>
@@ -73,7 +74,7 @@
             </#if>
             <footer class="post-meta">
                 <img class="author-thumb"
-                     src="http://p7mkg1wor.bkt.clouddn.com//avatar/timg.jpg"
+                     src="http://cdn.zzitbar.com//avatar/timg.jpg"
                      alt="${article.author!"zzitbar"}" nopin="nopin"/>
                 <a href="#">${article.author!"zzitbar"}</a>
 
