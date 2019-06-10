@@ -3,7 +3,9 @@
 #Cblog
  [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
  
-使用spring boot + freemarker 开发的个人博客项目，目前还在开发中，暂无上线。
+使用spring boot + freemarker 开发的个人博客项目。
+
+博客地址： [Simplify](https://zzitbar.com/)
 
 # 运行环境
 - JDK 8
